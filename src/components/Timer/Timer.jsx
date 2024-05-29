@@ -75,64 +75,66 @@ function Timer() {
       });
   };
   return (
-    <>
-      <div className="timer-container">
-        <div className="input-container">
-          <label htmlFor="firstnumber">First Number: </label>
-          <input
-            type="number"
-            id="firstnumber"
-            name="firstnumber"
-            value={fNumber}
-            onChange={(e) => handleNumberChange(e, setFnumber)}
-            style={{ color: "inherit" }}
-          />
-        </div>
-        <div className="input-container">
-          <label htmlFor="secondname">Second Number: </label>
-          <input
-            type="number"
-            id="secondname"
-            name="secondname"
-            value={sNumber}
-            onChange={(e) => handleNumberChange(e, setSnumber)}
-          />
-        </div>
-        <div className="operations">
-          {Object.keys(operations).map((operator) => (
-            <button
-              key={operator}
-              className="operation-btn"
-              onClick={() => handleOperation(operator)}
-            >
-              {operator}
+      <div className="main-container">
+        <div className="timer-container">
+          <div className="input-container">
+            <label htmlFor="firstnumber">First Number: </label>
+            <input
+              type="number"
+              id="firstnumber"
+              name="firstnumber"
+              value={fNumber}
+              onChange={(e) => handleNumberChange(e, setFnumber)}
+              style={{ color: "inherit" }}
+            />
+          </div>
+          <div className="input-container">
+            <label htmlFor="secondname">Second Number: </label>
+            <input
+              type="number"
+              id="secondname"
+              name="secondname"
+              value={sNumber}
+              onChange={(e) => handleNumberChange(e, setSnumber)}
+            />
+          </div>
+          <div className="operations">
+            {Object.keys(operations).map((operator) => (
+              <button
+                key={operator}
+                className="operation-btn"
+                onClick={() => handleOperation(operator)}
+              >
+                {operator}
+              </button>
+            ))}
+            <button className="clear-btn" onClick={handleClearAll}>
+              Clear
             </button>
-          ))}
-          <button className="clear-btn" onClick={handleClearAll}>
-            Clear
-          </button>
+          </div>
+        </div>
+        <div>
+          {errorMessage && (
+            <div className="error-message">
+              <h3>{errorMessage}</h3>
+            </div>
+          )}
+          {output !== null && !errorMessage ? (
+            <div className="result">
+              <h3 style={{ color: "black" }}>Result: {output}</h3>
+              <button onClick={handleClipCopy}>
+                {!copySuccess ? "Copy" : "Copied"}
+              </button>
+            </div>
+          ) : (
+            !errorMessage && (
+              <h3 >
+                Perform an operation
+              </h3>
+            )
+          )}
         </div>
       </div>
-      {errorMessage && (
-        <div className="error-message">
-          <h3>{errorMessage}</h3>
-        </div>
-      )}
-      {output !== null && !errorMessage ? (
-        <div className="result">
-          <h3 style={{ color: "black" }}>Result: {output}</h3>
-          <button onClick={handleClipCopy}>
-            {!copySuccess ? "Copy" : "Copied"}
-          </button>
-        </div>
-      ) : (
-        !errorMessage && (
-          <h3 style={{ marginTop: "5rem", textAlign: "center" }}>
-            Perform an operation
-          </h3>
-        )
-      )}
-    </>
   );
 }
 
