@@ -1,46 +1,61 @@
-.input-container {
+.timer-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden; /* Prevents child elements from overflowing */
+  }
+  
+  .input-container {
+    margin-bottom: 10px;
+  }
+  
+  input[type="number"] {
+    width: calc(100% - 20px); /* Adjusting width to account for padding */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .operations {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.operations {
-    display: flex;
-    gap: 1rem;
-}
-
-.btn-size {
-    display: inline-block;
+    flex-wrap: wrap; /* Allows buttons to wrap to the next line if needed */
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .operation-btn, .clear-btn {
+    flex: 1; /* Makes buttons grow equally within flex container */
+    margin-right: 5px; /* Add spacing between buttons */
     padding: 10px 20px;
     font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
-    background-color: #007bff;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.btn-size:hover {
+    transition: background-color 0.3s;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  .operation-btn:last-child, .clear-btn:last-child {
+    margin-right: 0; /* Remove margin from last button */
+  }
+  
+  .operation-btn:hover, .clear-btn:hover {
     background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-.btn:active {
-    background-color: #003f7f;
-    transform: scale(1);
-}
-
-.btn:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
-}
-
-/* Additional styles for disabled button */
-.btn-size:disabled {
-    background-color: #c0c0c0;
-    cursor: not-allowed;
-}
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 10px;
+  }
+  
+  .result {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  

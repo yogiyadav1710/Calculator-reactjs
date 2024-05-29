@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Timer.css";
+import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 function Timer() {
   const [fNumber, setFnumber] = useState(0);
   const [sNumber, setSnumber] = useState(0);
   const [output, setOutput] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [copySuccess, setCopySuccess] = useState(false);
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeySupport);
+  });
   const handleNumberChange = (e, setter) => {
     const value = e.target.value;
     setOutput(null); // Reset output
     setErrorMessage("");
     setter(value); // Update number state
+    setCopySuccess(false);
   };
 
   const operations = {
@@ -23,6 +28,8 @@ function Timer() {
   const handleOperation = (operator) => {
     const num1 = parseFloat(fNumber);
     const num2 = parseFloat(sNumber);
+
+    // checking input to be number
     if (isNaN(num1) && isNaN(num2)) {
       setErrorMessage("Invalid input. Please enter valid message");
       return;
@@ -35,11 +42,41 @@ function Timer() {
       return;
     }
     setOutput(result);
+    setCopySuccess(false);
+  };
+  const handleClearAll = () => {
+    setFnumber(0);
+    setSnumber(0);
+    setOutput(null);
+    setErrorMessage("");
   };
 
+  const handleKeySupport = (e) => {
+    console.log("INTO KEY SUPPORT");
+    const key = e.key;
+    if (key >= 0 && key <= 9) {
+      if (fNumber === "") {
+        console.log(key);
+        setFnumber(key);
+      } else if (sNumber === "" && output === null) {
+        setSnumber(key);
+      }
+    }
+  };
+
+  const handleClipCopy = () => {
+    navigator.clipboard
+      .writeText(output)
+      .then(() => {
+        setCopySuccess(true);
+      })
+      .catch(() => {
+        setCopySuccess(false);
+      });
+  };
   return (
     <>
-      <div style={{ position: "relative", top: "2rem" }}>
+      <div className="timer-container">
         <div className="input-container">
           <label htmlFor="firstnumber">First Number: </label>
           <input
@@ -65,22 +102,28 @@ function Timer() {
           {Object.keys(operations).map((operator) => (
             <button
               key={operator}
-              className="btn-size"
+              className="operation-btn"
               onClick={() => handleOperation(operator)}
             >
               {operator}
             </button>
           ))}
+          <button className="clear-btn" onClick={handleClearAll}>
+            Clear
+          </button>
         </div>
       </div>
       {errorMessage && (
-        <div style={{ marginTop: "5rem", textAlign: "center", color: "red" }}>
+        <div className="error-message">
           <h3>{errorMessage}</h3>
         </div>
       )}
       {output !== null && !errorMessage ? (
-        <div style={{ marginTop: "5rem", textAlign: "center" }}>
+        <div className="result">
           <h3 style={{ color: "black" }}>Result: {output}</h3>
+          <button onClick={handleClipCopy}>
+            {!copySuccess ? "Copy" : "Copied"}
+          </button>
         </div>
       ) : (
         !errorMessage && (
